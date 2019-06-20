@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=yes" />
+	<title><%= htmlWebpackPlugin.options.title %></title>
+	<link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<% for (var css in htmlWebpackPlugin.files.css) { %>
+	<link href="<%=htmlWebpackPlugin.files.css[css] %>" rel="stylesheet">
+	<% } %>
+	<style>
+		.mditor {
+			margin: 45px auto;
+			max-width: 880px;
+		}
+	</style>
+</head>
+
+<body>
+<h2 id="我试试">我试试</h2>
+<blockquote>
+<p>sfdasfasdf</p>
+</blockquote>
+<pre><code class="lang-java">public static void main(String[] args){
+	System.out.println("====");
+  }
+</code></pre>
+		
+
+	<div>
+		<textarea id="editor">## 只求极致
+[ **M** ] arkdown + E [ **ditor** ] = **Mditor**  
+> Mditor 是一个简洁、易于集成、方便扩展、期望舒服的编写 markdown 的编辑器，仅此而已...</textarea>
+	</div>
+
+	<% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
+	<script src="<%=htmlWebpackPlugin.files.chunks[chunk].entry %>"></script>
+	<% } %>
+	<script>
+		var textarea = document.getElementById('editor');
+		var lmditor = new LMditor(textarea)
+		console.log(lmditor.val())
+
+	</script>
+</body>
+
+</html>
