@@ -1,14 +1,16 @@
-const path = require("path")
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const UglifyJsPlugin=require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const pkg = require('./package.json');
 
 const ENV = process.env.NODE_ENV || 'prod';
 
-const cssBundlePlugin = new MiniCssExtractPlugin(`css/lmditor${ENV == 'prod' ? '.min' : ''}.css`);
+const cssBundlePlugin = new MiniCssExtractPlugin({
+  filename: `css/lmditor${ENV == 'prod' ? '.min' : ''}.css`
+});
 
 const htmlPlugin = new HtmlWebpackPlugin({
   title: pkg.name,
@@ -17,7 +19,8 @@ const htmlPlugin = new HtmlWebpackPlugin({
   inject: false
 });
 
-const bannerPlugin = new webpack.BannerPlugin(`${pkg.displayName} version ${pkg.version}
+const bannerPlugin = new webpack.BannerPlugin(`${pkg.name} 
+version ${pkg.version} 
 Homepage: ${pkg.homepage}`);
 
 // webpack plugins
@@ -26,7 +29,7 @@ const plugins = [
   cssBundlePlugin,
   bannerPlugin,
   new CleanWebpackPlugin({
-    root: path.resolve(__dirname, '../'),
+    root: __dirname + '/dist',
     verbose:  true
   }),
   new webpack.NamedModulesPlugin(),
@@ -65,14 +68,11 @@ const rules = [{
 module.exports = {
   mode:`${ENV == 'prod' ? 'production' : 'development'}`,
   entry:  {
-    'lmditor': [
-      path.resolve(__dirname, 'src/client/index.js'), 
-      `${ENV=='dev' ? 'webpack-dev-server/client?http://localhost:8080/' : ''}`
-    ]
+    'lmditor': __dirname + `/src/client/index.js`
   },
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: `[name]${ENV == 'prod' ? '.min' : ''}.js`
+    path:  __dirname +'/dist',
+    filename: `js/[name]${ENV == 'prod' ? '.min' : ''}.js`
   },
   devtool: 'source-map',
   module: {
@@ -82,13 +82,20 @@ module.exports = {
   optimization: {
     minimizer: [
         new UglifyJsPlugin({
-            uglifyOptions: {
-                compress: `${ENV == 'prod' ? true : false}`
-            }
+          sourceMap: true,
+          parallel: true
+        }),
+        new OptimizeCSSAssetsPlugin({
+          safe: true,
+          sourcMap: true,
+          autoprefixer: { disable: true }, 
+          discardComments: {
+            removeAll: true // 移除注释
+          }
         })
     ]
   },
   devServer: {
-    contentBase: path.resolve(__dirname, 'dist')
+    contentBase: __dirname + '/dist'
   }
 }

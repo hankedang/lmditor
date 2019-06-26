@@ -1,3 +1,9 @@
+textarea {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
 .toolbar {
     height: 2rem;
     padding: 0 1rem;
@@ -13,6 +19,7 @@
 }
 .toolbar .tbs .item {
     padding: 0.2rem 0.3rem;
+    cursor: pointer;
 }
 .toolbar nav button{
     height: 2.1rem;

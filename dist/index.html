@@ -4,11 +4,11 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=yes" />
-	<title><%= htmlWebpackPlugin.options.title %></title>
+	<title>lmditor</title>
 	<link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	<% for (var css in htmlWebpackPlugin.files.css) { %>
-	<link href="<%=htmlWebpackPlugin.files.css[css] %>" rel="stylesheet">
-	<% } %>
+	
+	<link href="css/lmditor.min.css" rel="stylesheet">
+	
 	<style>
 		.con {
 			width: 70%;
@@ -36,9 +36,9 @@
 	</div>
 
 
-	<% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
-	<script src="<%=htmlWebpackPlugin.files.chunks[chunk].entry %>"></script>
-	<% } %>
+	
+	<script src="js/lmditor.min.js"></script>
+	
 	<script>
 		var textarea = document.getElementById('editor');
 		var lmditor = new LMditor(textarea,{width:'100%', height:'300px'})

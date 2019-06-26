@@ -1,25 +1,14 @@
+const items = require('./items')
 require('./toolbar.css')
 
-const tmpl = `
+let tmpl = `
     <div class='toolbar'>
-        <nav class='tabs'>
+        <nav class='tabs' id="tabs">
             <button class="active">Markdown</button>
             <button>预览</button>
         </nav>
-        <ul class="tbs">
-            <i data-cmd="bold" class="item fa fa-bold  " title="粗体 shift+alt+b"></i>
-            <i data-cmd="italic" class="item fa fa-italic  " title="斜体 shift+alt+i"></i>
-            <i data-cmd="underline" class="item fa fa-underline  " title="下划线 shift+alt+e"></i>
-            <i data-cmd="strikethrough" class="item fa fa-strikethrough  " title="删除线 shift+alt+d"></i>
-            <i data-cmd="header" class="item fa fa-header  " title="标题 shift+alt+1"></i>
-            <i data-cmd="quote" class="item fa fa-quote-left  " title="引用 shift+alt+q"></i>
-            <i data-cmd="code" class="item fa fa-code  " title="代码 shift+alt+c"></i>
-            <i data-cmd="list-ol" class="item fa fa-list-ol  " title="有序列表 shift+alt+o"></i>
-            <i data-cmd="list-ul" class="item fa fa-list-ul  " title="无序列表 shift+alt+u"></i>
-            <i data-cmd="link" class="item fa fa-link" title="链接 shift+alt+l"></i>
-            <i data-cmd="table" class="item fa fa-table" title="表格 shift+alt+t"></i>
-            <i data-cmd="line" class="item fa fa-minus" title="分隔线 shift+alt+h"></i>
-            <i data-cmd="toggleFullScreen" class="item fa fa-arrows-alt  control" title="全屏 shift+alt+f"></i>
+        <ul class="tbs" id="items">
+           <items/>
         </ul>
     </div>
 `
@@ -27,21 +16,66 @@ const tmpl = `
 const toolbarItem = {
     tabs: null,
     bm: null,
-    preview: null
+    preview: null,
+
+    init: function(_this){
+        const div = document.getElementById('items')
+        for(let child of div.children) {
+            const name = child.getAttribute('data-cmd')
+            for(let item of items) {
+                if(name == item.name) {
+                    const fn = item.handler.bind(_this)
+                    child.onclick = fn
+                    _this.lmditor.shortKey.bind(`${item.key}`, fn)
+                    break;
+                }
+            }
+        }
+    }
 }
 
 
 class Toolbar {
     constructor(lmditor){
         this.lmditor = lmditor
+        let itemstag = ''
+        for(let item of items) {
+            itemstag += `<i data-cmd="${item.name}" class="item fa ${item.icon}" title="${ item.title + ' ' + item.key }"></i>` + '\n'
+        }
+        tmpl = tmpl.replace('<items/>', itemstag)
     }
 
     init(){
-        toolbarItem.tabs = document.getElementsByClassName('tabs')[0]
+        toolbarItem.init(this)
+        toolbarItem.tabs = document.getElementById('tabs')
         toolbarItem.bm = toolbarItem.tabs.firstElementChild
         toolbarItem.preview = toolbarItem.tabs.lastElementChild
         toolbarItem.bm.onclick = () => this.active(toolbarItem.bm)
         toolbarItem.preview.onclick = () => this.active(toolbarItem.preview)
+
+
+        //绑定 toolbar 快捷键
+        // this.lmditor.shortKey.bind('ctrl+alt+b', () => this.lmditor.editor.insertSelectText('**','**'))
+        // this.lmditor.shortKey.bind('ctrl+alt+i', () => this.lmditor.editor.insertSelectText('*','*'))
+        // this.lmditor.shortKey.bind('ctrl+alt+e', () => this.lmditor.editor.insertSelectText('<u>','</u>'))
+        // this.lmditor.shortKey.bind('ctrl+alt+d', () => this.lmditor.editor.insertSelectText('~~','~~'))
+        // this.lmditor.shortKey.bind('ctrl+alt+1', () => this.lmditor.editor.insertSelectText('#',''))
+        // this.lmditor.shortKey.bind('ctrl+alt+q', () => this.lmditor.editor.insertSelectText('>',''))
+        // this.lmditor.shortKey.bind('ctrl+alt+c', () => this.lmditor.editor.insertSelectText('```js', this.lmditor.EOL + '```'))
+        // this.lmditor.shortKey.bind('ctrl+alt+o', () => this.lmditor.editor.insertSelectText('1. ',''))
+        // this.lmditor.shortKey.bind('ctrl+alt+u', () => this.lmditor.editor.insertSelectText('-- ',''))
+        // this.lmditor.shortKey.bind('ctrl+alt+l', () => this.lmditor.editor.insertSelectText('[link](',')'))
+        // this.lmditor.shortKey.bind('ctrl+alt+t', () => {
+        //     let buffer = [
+        //         'column1 | column2 | column3  ',
+        //         '------- | ------- | -------  ',
+        //         'column1 | column2 | column3  ',
+        //         'column1 | column2 | column3  ',
+        //         'column1 | column2 | column3  '
+        //       ];
+        //       this.lmditor.editor.insertSelectText(buffer.join(this.lmditor.EOL) + this.lmditor.EOL,'')
+        // })
+        // this.lmditor.shortKey.bind('ctrl+alt+h', () => this.lmditor.editor.insertSelectText('----', this.lmditor.EOL))
     }
     
     get() {

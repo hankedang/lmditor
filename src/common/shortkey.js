@@ -1,21 +1,29 @@
+import hotkeys from 'hotkeys-js';
 
+hotkeys.filter = function(event){
+    var tagName = (event.target || event.srcElement).tagName;
+    hotkeys.setScope(/^(INPUT|TEXTAREA|SELECT)$/.test(tagName) ? 'input' : 'other');
+    return true;
+}
 
 class ShortKey{
 
-
     /**
-     * 
-     * @param {按键的ASCII} key 
+     * @param {string} key  绑定的快捷键
+     * @param {function} fn 快捷键操作
      */
-    mask(key) {
-        document.onkeydown = () => {
-            console.log(key)
-            if (event.keyCode == key) {  
-                return false; 
-            }
-        }
+    bind(key, fn){
+        hotkeys(key, function(event, handler){
+            event.preventDefault()
+            fn()
+            return false
+        })
     }
 
+    unbind(key) {
+        hotkeys.unbind(key)
+    }
+    
 
 }
 
