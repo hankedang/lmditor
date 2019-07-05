@@ -40,6 +40,7 @@ class LMditor {
     onReady() {
         this.toolbar.init()
         this.editor.init()
+        this.editor.setSelectText(this.ele.innerHTML)
     }
 
     getValue(){

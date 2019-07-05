@@ -17,10 +17,7 @@ textarea {
     float: left;
     margin-bottom: -1px;
 }
-.toolbar .tbs .item {
-    padding: 0.2rem 0.3rem;
-    cursor: pointer;
-}
+
 .toolbar nav button{
     height: 2.1rem;
     margin: 0;
@@ -46,9 +43,37 @@ textarea {
     color: #24292e;
 }
 
-.toolbar .tbs{
-    float: right;
-    height: 2rem;
-    line-height: 2rem;
-    margin: 0;
+
+@media screen and (max-width: 576px) {
+    .toolbar .tbs{
+        display: none;
+    }
+}
+
+
+
+@media screen and (max-width: 768px) {
+    .toolbar .tbs{
+        float: right;
+        height: 2rem;
+        line-height: 2rem;
+        margin: 0;
+    }
+    .toolbar .tbs .item {
+        padding: 0.2rem 0.1rem;
+        cursor: pointer;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .toolbar .tbs{
+        float: right;
+        height: 2rem;
+        line-height: 2rem;
+        margin: 0;
+    }
+    .toolbar .tbs .item {
+        padding: 0.2rem 0.1rem;
+        cursor: pointer;
+    }
 }
