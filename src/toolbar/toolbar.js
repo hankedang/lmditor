@@ -4,8 +4,8 @@ require('./toolbar.css')
 let tmpl = `
     <div class='toolbar'>
         <nav class='tabs' id="tabs">
-            <button class="active">Markdown</button>
-            <button>预览</button>
+            <button type="button" class="active">Markdown</button>
+            <button type="button">预览</button>
         </nav>
         <ul class="tbs" id="items">
            <items/>
