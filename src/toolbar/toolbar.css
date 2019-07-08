@@ -18,8 +18,7 @@ textarea {
     margin-bottom: -1px;
 }
 
-.toolbar nav button{
-    height: 2.1rem;
+.toolbar nav .btn{
     margin: 0;
     background-color: transparent;
     border: 1px solid transparent;
@@ -28,18 +27,15 @@ textarea {
     display: inline-block;
     font-size: 14px;
     line-height: 20px;
-    padding: 8px 12px;
+    padding: 6px 12px;
     text-decoration: none;
     cursor: pointer;
 }
-.toolbar nav button:focus{
-    outline:0;
-} 
 
 .toolbar .active{
-    background-color: #fff;
-    border-color: #d1d5da;
-    border-radius: 3px 3px 0 0;
+    background-color: #fff !important;
+    border-color: #d1d5da !important;
+    border-radius: 3px 3px 0 0 !important;
     color: #24292e;
 }
 
