@@ -3,7 +3,7 @@ import hotkeys from 'hotkeys-js';
 
 const tmpl = `
     <div class="body">
-        <textarea autofocus id="lmarea" name='{name}'></textarea>
+        <textarea autofocus id="lmarea" name='{name}' placeholder='{placeholder}'></textarea>
         <div id="preview" class="markdown-body"></div>
     </div>
 `
@@ -31,7 +31,11 @@ class Editor {
     }
 
     get() {
-        return tmpl.replace('{name}', this.lmditor.ele.getAttribute('name'))
+        let tmp =  tmpl.replace('{name}', this.lmditor.ele.getAttribute('name'))
+        if(this.lmditor.cfg.placeholder != undefined) {
+            tmp = tmp.replace('{placeholder}', this.lmditor.cfg.placeholder)
+        }
+        return tmp
     }
 
     getValue() {
