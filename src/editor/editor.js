@@ -3,7 +3,7 @@ import hotkeys from 'hotkeys-js';
 
 const tmpl = `
     <div class="body">
-        <textarea autofocus id="lmarea" name='{name}' placeholder='{placeholder}'></textarea>
+        <textarea autofocus id="lmarea" name='{name}' placeholder='{placeholder}' htmlEscape="true"></textarea>
         <div id="preview" class="markdown-body"></div>
     </div>
 `

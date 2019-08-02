@@ -40,7 +40,7 @@ class LMditor {
     onReady() {
         this.toolbar.init()
         this.editor.init()
-        this.editor.setSelectText(this.ele.innerHTML)
+        this.editor.setSelectText(this.ele.textContent)
     }
 
     getValue(){
@@ -62,4 +62,5 @@ class LMditor {
     
 }
 
+module.exports = window.LMParser = new Parser();
 module.exports = window.LMditor = LMditor;
